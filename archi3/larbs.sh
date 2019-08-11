@@ -1,7 +1,5 @@
 #!/bin/sh
-# Luke's Auto Rice Boostrapping Script (LARBS)
-# by Luke Smith <luke@lukesmith.xyz>
-# License: GNU GPLv3
+# Arch Bootstrap
 
 ### OPTIONS AND VARIABLES ###
 
