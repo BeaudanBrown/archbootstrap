@@ -66,3 +66,5 @@ G,https://github.com/BeaudanBrown/st.git,"is my custom build of suckless's termi
 ,odt2txt,"enables .odt file previews in vifm."
 ,the_silver_searcher,"installs ag for faster searching."
 A,google-chrome,"installs chrome."
+,bash-completion,"provides better tab completion for common bash commands"
+,cmake,"allows for compiling c/cpp"
