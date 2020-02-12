@@ -134,6 +134,12 @@ serviceinit() { for service in "$@"; do
 	systemctl start "$service"
 	done ;}
 
+userserviceinit() { for service in "$@"; do
+	dialog --infobox "Enabling \"$service\"..." 4 40
+	systemctl --user enable "$service"
+	systemctl --user start "$service"
+	done ;}
+
 systembeepoff() { dialog --infobox "Getting rid of that retarded error beep sound..." 10 50
 	rmmod pcspkr
 	echo "blacklist pcspkr" > /etc/modprobe.d/nobeep.conf ;}
@@ -203,7 +209,10 @@ rm -f "/home/$name/README.md" "/home/$name/LICENSE"
 [ -f /usr/bin/pulseaudio ] && resetpulse
 
 # Enable services here.
-serviceinit NetworkManager cronie
+serviceinit NetworkManager cronie bluetooth-autoconnect
+
+# Enable user services here.
+userserviceinit pulseaudio-bluetooth-autoconnect
 
 # Most important command! Get rid of the beep!
 systembeepoff
