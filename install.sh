@@ -124,8 +124,16 @@ putgitrepo() { # Downlods a gitrepo $1 and places the files in $2 only overwriti
     dir=$(mktemp -d)
     [ ! -d "$2" ] && mkdir -p "$2" && chown -R "$name:wheel" "$2"
     chown -R "$name:wheel" "$dir"
-    sudo -u "$name" git clone -b "$branch" --depth 1 "$1" "$dir/gitrepo" >/dev/null 2>&1 &&
-    sudo -u "$name" cp -rfT "$dir/gitrepo" "$2"
+
+    sudo -u "$name" git clone --bare $1 $2
+    mkdir -p .config-backup
+    /usr/bin/git --git-dir=$2 --work-tree=$HOME checkout
+    if [ $? = 0 ]; then
+      else
+        /usr/bin/git --git-dir=$2 --work-tree=$HOME checkout 2>&1 | egrep "\s+\." | awk {'print $1'} | xargs -I{} mv {} .config-backup/{}
+    fi;
+    /usr/bin/git --git-dir=$2 --work-tree=$HOME checkout
+    /usr/bin/git --git-dir=$2 --work-tree=$HOME config status.showUntrackedFiles no
     }
 
 serviceinit() { for service in "$@"; do
@@ -201,8 +209,8 @@ manualinstall $aurhelper || error "Failed to install AUR helper."
 # and all build dependencies are installed.
 installationloop
 
-# Install the dotfiles in the user's home directory
-putgitrepo "$dotfilesrepo" "/home/$name" "$repobranch"
+# Install the dotfiles in bare git folder
+putgitrepo "$dotfilesrepo" "/home/$name/.config/dotsGit" "$repobranch"
 rm -f "/home/$name/README.md" "/home/$name/LICENSE"
 
 # Pulseaudio, if/when initially installed, often needs a restart to work immediately.
