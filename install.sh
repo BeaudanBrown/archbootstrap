@@ -243,6 +243,9 @@ userserviceinit pulseaudio-bluetooth-autoconnect
 # Most important command! Get rid of the beep!
 systembeepoff
 
+# Change shell to zsh
+chsh -s /usr/bin/zsh $name
+
 # This line, overwriting the `newperms` command above will allow the user to run
 # serveral important commands, `shutdown`, `reboot`, updating, etc. without a password.
 newperms "%wheel ALL=(ALL) ALL #LARBS
