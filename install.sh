@@ -133,7 +133,7 @@ putgitrepo() { # Downlods a gitrepo $1 and places the files in $2 only overwriti
     [ ! -d "$dir" ] && mkdir -p "$dir" && chown -R "$name:wheel" "$dir"
     sudo -u "$name" git clone --bare $1 $dir
     function dot {
-       /usr/bin/git --git-dir=$dir --work-tree=/home/$name/ $@
+       sudo -u "$name" git --git-dir=$dir --work-tree=/home/$name/ $@
     }
 
     dot checkout
