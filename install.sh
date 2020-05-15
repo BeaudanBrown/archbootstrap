@@ -25,7 +25,7 @@ error() {
 }
 
 welcomemsg() {
-    dialog --title "Welcome!" --msgbox "This script will install a fully featured arch linux i3 system" 10 60
+    dialog --title "Welcome!" --msgbox "This script will install a fully featured arch linux bspwm system" 10 60
 }
 
 getuserandpass() {
@@ -84,13 +84,13 @@ manualinstall() { # Installs $1 manually if not installed. Used only for AUR hel
 }
 
 maininstall() { # Installs all needed programs from main repo.
-    dialog --title "Arch i3 Installation" --infobox "Installing \`$1\` ($n of $total). $1 $2" 5 70
+    dialog --title "Arch bspwm Installation" --infobox "Installing \`$1\` ($n of $total). $1 $2" 5 70
     pacman --noconfirm --needed -S "$1" >/dev/null 2>&1
 }
 
 gitmakeinstall() {
     dir=$(mktemp -d)
-    dialog --title "Arch i3 Installation" --infobox "Installing \`$(basename "$1")\` ($n of $total) via \`git\` and \`make\`. $(basename "$1") $2" 5 70
+    dialog --title "Arch bspwm Installation" --infobox "Installing \`$(basename "$1")\` ($n of $total) via \`git\` and \`make\`. $(basename "$1") $2" 5 70
     git clone --depth 1 "$1" "$dir" >/dev/null 2>&1
     cd "$dir" || exit
     make >/dev/null 2>&1
@@ -99,13 +99,13 @@ gitmakeinstall() {
 }
 
 aurinstall() {
-    dialog --title "Arch i3 Installation" --infobox "Installing \`$1\` ($n of $total) from the AUR. $1 $2" 5 70
+    dialog --title "Arch bspwm Installation" --infobox "Installing \`$1\` ($n of $total) from the AUR. $1 $2" 5 70
     echo "$aurinstalled" | grep "^$1$" >/dev/null 2>&1 && return
     sudo -u "$name" $aurhelper -S --noconfirm "$1" >/dev/null 2>&1
 }
 
 pipinstall() {
-    dialog --title "Arch i3 Installation" --infobox "Installing the Python package \`$1\` ($n of $total). $1 $2" 5 70
+    dialog --title "Arch bspwm Installation" --infobox "Installing the Python package \`$1\` ($n of $total). $1 $2" 5 70
     command -v pip || pacman -S --noconfirm --needed python-pip >/dev/null 2>&1
     yes | pip install "$1"
 }
@@ -204,7 +204,7 @@ adduserandpass || error "Error adding username and/or password."
 # Refresh Arch keyrings.
 refreshkeys || error "Error automatically refreshing Arch keyring. Consider doing so manually."
 
-dialog --title "Arch i3 Installation" --infobox "Installing \`basedevel\` and \`git\` for installing other software." 5 70
+dialog --title "Arch bspwm Installation" --infobox "Installing \`basedevel\` and \`git\` for installing other software." 5 70
 pacman --noconfirm --needed -S base-devel git >/dev/null 2>&1
 [ -f /etc/sudoers.pacnew ] && cp /etc/sudoers.pacnew /etc/sudoers # Just in case
 
