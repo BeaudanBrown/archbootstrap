@@ -246,6 +246,11 @@ systembeepoff
 # Change shell to zsh
 chsh -s /usr/bin/zsh $name
 
+# Set up node for nvim plugins
+nvm install --latest-npm
+nvm alias default node
+nvm use default
+
 # This line, overwriting the `newperms` command above will allow the user to run
 # serveral important commands, `shutdown`, `reboot`, updating, etc. without a password.
 newperms "%wheel ALL=(ALL) ALL #LARBS
