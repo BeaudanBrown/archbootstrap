@@ -3,19 +3,17 @@
 
 ### OPTIONS AND VARIABLES ###
 
-while getopts ":a:r:b:p:h" o; do case "${o}" in
-    h) printf "Optional arguments for custom use:\\n  -r: Dotfiles repository (local file or url)\\n  -b: Dotfiles branch (master is assumed otherwise)\\n  -p: Dependencies and programs csv (local file or url)\\n  -a: AUR helper (must have pacman-like syntax)\\n  -h: Show this message\\n" && exit ;;
-    r) dotfilesrepo=${OPTARG} && git ls-remote "$dotfilesrepo" || exit ;;
+while getopts ":b:h" o; do case "${o}" in
+    h) printf "Optional arguments for custom use:\\n  -b: Dotfiles branch (master is assumed otherwise)\\n  -h: Show this message\\n" && exit ;;
     b) repobranch=${OPTARG} ;;
-    p) progsfile=${OPTARG} ;;
-    a) aurhelper=${OPTARG} ;;
     *) printf "Invalid option: -%s\\n" "$OPTARG" && exit ;;
 esac done
 
 # DEFAULTS:
-[ -z "$dotfilesrepo" ] && dotfilesrepo="git@github.com/BeaudanBrown/dotarch.git" && repobranch="master"
-[ -z "$progsfile" ] && progsfile="https://raw.githubusercontent.com/BeaudanBrown/archbootstrap/master/progs.csv"
-[ -z "$aurhelper" ] && aurhelper="yay"
+dotfilesrepo="https://github.com/BeaudanBrown/dotarch.git"
+dotfilesrepossh="git@github.com:BeaudanBrown/dotarch.git"
+progsfile="https://raw.githubusercontent.com/BeaudanBrown/archbootstrap/master/progs.csv"
+aurhelper="yay"
 [ -z "$repobranch" ] && repobranch="master"
 
 ### FUNCTIONS ###
@@ -144,6 +142,7 @@ putgitrepo() { # Downlods a gitrepo $1 and places the files in $2 only overwriti
     fi;
     dot checkout
     dot config status.showUntrackedFiles no
+    dot remote set-url origin $dotfilesrepossh
 }
 
 serviceinit() {
