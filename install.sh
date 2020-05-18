@@ -246,6 +246,12 @@ systembeepoff
 chsh -s /usr/bin/zsh $name
 
 # Set up node for nvim plugins
+# Set up Node Version Manager
+export NVM_DIR="$HOME/.config/nvm"
+source /usr/share/nvm/nvm.sh 2>/dev/null
+source /usr/share/nvm/bash_completion 2>/dev/null
+source /usr/share/nvm/install-nvm-exec 2>/dev/null
+
 nvm install --latest-npm
 nvm alias default node
 nvm use default
