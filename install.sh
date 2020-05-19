@@ -128,7 +128,7 @@ putgitrepo() { # Downlods a gitrepo $1 and places the files in $2 only overwriti
     dialog --infobox "Downloading and installing config files..." 4 60
     [ -z "$3" ] && branch="master" || branch="$repobranch"
     dir=$2
-    [ ! -d "$dir" ] && mkdir -p "$dir" && chown -R "$name:wheel" "$dir"
+    [ ! -d "$dir" ] && sudo -u "$name" mkdir -p "$dir"
     sudo -u "$name" git clone --bare $1 $dir
     function dot {
        sudo -u "$name" git --git-dir=$dir --work-tree=/home/$name/ $@
@@ -137,8 +137,8 @@ putgitrepo() { # Downlods a gitrepo $1 and places the files in $2 only overwriti
     dot checkout
     if [ $? != 0 ]; then
         # Backup conflicting dotfiles
-        mkdir -p .config-backup
-        dot checkout 2>&1 | egrep "\s+\." | awk {'print $1'} | xargs -I{} mv {} .config-backup/{}
+        mkdir -p /home/$name/.config-backup
+        dot checkout 2>&1 | egrep "\s+\." | awk {'print $1'} | xargs -I{} mv {} /home/$name/.config-backup/{}
     fi;
     dot checkout
     dot config status.showUntrackedFiles no
@@ -250,7 +250,7 @@ if [ -f /home/$name/.local/bin/tools/fnm ]; then
     sudo -u $name -- sh -c "
         export FNM_DIR='/home/$name/.config/fnm/';
         /home/$name/.local/bin/tools/fnm install latest;
-        /home/$name/.local/bin/tools/fnm ls | awk '/latest/ {print \$2}' | xargs -I {} fnm default {};
+        /home/$name/.local/bin/tools/fnm ls | awk '/latest/ {print \$2}' | xargs -I {} /home/$name/.local/bin/tools/fnm default {};
         /home/$name/.local/bin/tools/fnm use default
     "
 fi
