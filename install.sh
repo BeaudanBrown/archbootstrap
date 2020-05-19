@@ -162,7 +162,7 @@ userserviceinit() {
 }
 
 systembeepoff() {
-    dialog --infobox "Getting rid of that retarded error beep sound..." 10 50
+    dialog --infobox "Disabling error beep sound..." 10 50
     rmmod pcspkr
     echo "blacklist pcspkr" > /etc/modprobe.d/nobeep.conf ;
 }
