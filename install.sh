@@ -141,7 +141,6 @@ putgitrepo() { # Downlods a gitrepo $1 and places the files in $2 only overwriti
         dot checkout 2>&1 | egrep "\s+\." | awk {'print $1'} | xargs -I{} mv {} /home/$name/.config-backup/{}
     fi;
     dot checkout
-    dot config status.showUntrackedFiles no
     dot remote set-url origin $dotfilesrepossh
 }
 
